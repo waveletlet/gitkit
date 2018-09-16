@@ -7,8 +7,9 @@ import (
 	"os/exec"
 	"path"
 	"strings"
+  "time"
+  "strconv"
 
-	"github.com/satori/go.uuid"
 )
 
 const ZeroSHA = "0000000000000000000000000000000000000000"
@@ -55,7 +56,7 @@ func (r *Receiver) Handle(reader io.Reader) error {
 		return fmt.Errorf("cant push to non-master branch")
 	}
 
-	tmpDir := path.Join(r.TmpDir, uuid.NewV4().String())
+	tmpDir := path.Join(r.TmpDir, strconv.FormatInt(time.Now().UnixNano(), 10))
 	if err := os.MkdirAll(tmpDir, 0774); err != nil {
 		return err
 	}
